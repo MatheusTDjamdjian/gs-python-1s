@@ -149,3 +149,67 @@ def exibir_aproximacoes():
         nome_det = detritos[a[2]][1]
         risco = classificar_risco(a[3], a[4])
         print(f"{i+1:<3}{a[0]:<18}{nome_sat:<22}{nome_det:<22}{a[3]:<10}{a[4]:<8}{risco:<10}")
+        
+def exibir_manobras():
+    """Exibe catalogo de manobras de mitigacao."""
+    print("\n=== MANOBRAS DE MITIGACAO DISPONIVEIS ===")
+    print(f"{'#':<3}{'TIPO':<28}{'COMB(kg)':<10}{'TEMPO(h)':<10}{'EFIC(%)':<10}{'RISCO':<10}")
+    print("-" * 75)
+    for i, m in enumerate(manobras):
+        print(f"{i+1:<3}{m[0]:<28}{m[1]:<10}{m[2]:<10}{m[3]:<10}{m[4]:<10}")
+
+
+def classificar_risco(distancia, probabilidade):
+    """Classifica nivel de risco com base em distancia e probabilidade.
+       Usa estrutura de condicao if/elif/else."""
+    if probabilidade >= 10.0 or distancia < 50:
+        return "CRITICO"
+    elif probabilidade >= 5.0 or distancia < 150:
+        return "ALTO"
+    elif probabilidade >= 1.0 or distancia < 500:
+        return "MODERADO"
+    else:
+        return "BAIXO"
+
+
+def recomendar_acao(nivel_risco):
+    """Recomenda acao com base no nivel de risco. Usa match/case."""
+    match nivel_risco:
+        case "CRITICO":
+            return "EMERGENCIA - Executar manobra evasiva imediata"
+        case "ALTO":
+            return "MANOBRAR - Planejar manobra nas proximas horas"
+        case "MODERADO":
+            return "ALERTAR - Notificar operadora e monitorar"
+        case "BAIXO":
+            return "MONITORAR - Continuar observacao de rotina"
+        case _:
+            return "INDEFINIDO - Reavaliar dados"
+
+
+def calcular_risco_colisao():
+    """Percorre todas as aproximacoes e gera relatorio de risco.
+       Usa for, contadores e classificacao."""
+    print("\n=== RELATORIO DE RISCO DE COLISAO ===")
+    contadores = {"CRITICO": 0, "ALTO": 0, "MODERADO": 0, "BAIXO": 0}
+    criticos = []
+
+    for i, evento in enumerate(aproximacoes):
+        risco = classificar_risco(evento[3], evento[4])
+        contadores[risco] += 1
+        if risco == "CRITICO":
+            criticos.append(i)
+
+    print(f"Total de eventos analisados: {len(aproximacoes)}")
+    print(f"  CRITICO : {contadores['CRITICO']}")
+    print(f"  ALTO    : {contadores['ALTO']}")
+    print(f"  MODERADO: {contadores['MODERADO']}")
+    print(f"  BAIXO   : {contadores['BAIXO']}")
+
+    if criticos:
+        print("\n!!! EVENTOS CRITICOS DETECTADOS !!!")
+        for idx in criticos:
+            ev = aproximacoes[idx]
+            print(f"  > {ev[0]} | {satelites[ev[1]][0]} x {detritos[ev[2]][1]}")
+            print(f"    Distancia: {ev[3]}m | Probabilidade: {ev[4]}%")
+            print(f"    Acao: {recomendar_acao('CRITICO')}")
