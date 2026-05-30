@@ -115,3 +115,37 @@ manobras = [
     ["Captura por braco rob.",  0.3,  2.5,  55, "ALTO"],
     ["Ejecao de carga util",    0.0,  0.8,  40, "ALTO"]
 ]
+
+# ============================================================================
+# FUNCOES (def) - Logica do sistema
+# ============================================================================
+
+def exibir_detritos():
+    """Exibe todos os detritos rastreados usando estrutura de repeticao for."""
+    print("\n=== DETRITOS ESPACIAIS RASTREADOS ===")
+    print(f"{'#':<3}{'NORAD':<8}{'NOME':<22}{'ORIGEM':<24}{'ALT(km)':<10}{'TAM(cm)':<8}")
+    print("-" * 75)
+    for i in range(len(detritos)):
+        d = detritos[i]
+        print(f"{i+1:<3}{d[0]:<8}{d[1]:<22}{d[2]:<24}{d[3]:<10}{d[4]:<8}")
+
+
+def exibir_satelites():
+    """Exibe todos os satelites monitorados."""
+    print("\n=== SATELITES OPERACIONAIS MONITORADOS ===")
+    print(f"{'#':<3}{'NOME':<22}{'OPERADORA':<12}{'FUNCAO':<16}{'ORB':<6}{'VALOR(US$M)':<12}")
+    print("-" * 75)
+    for i, s in enumerate(satelites):
+        print(f"{i+1:<3}{s[0]:<22}{s[1]:<12}{s[2]:<16}{s[3]:<6}{s[4]:<12}")
+
+
+def exibir_aproximacoes():
+    """Exibe eventos de aproximacao com classificacao de risco."""
+    print("\n=== EVENTOS DE APROXIMACAO REGISTRADOS ===")
+    print(f"{'#':<3}{'DATA/HORA':<18}{'SATELITE':<22}{'DETRITO':<22}{'DIST(m)':<10}{'PROB(%)':<8}{'RISCO':<10}")
+    print("-" * 100)
+    for i, a in enumerate(aproximacoes):
+        nome_sat = satelites[a[1]][0]
+        nome_det = detritos[a[2]][1]
+        risco = classificar_risco(a[3], a[4])
+        print(f"{i+1:<3}{a[0]:<18}{nome_sat:<22}{nome_det:<22}{a[3]:<10}{a[4]:<8}{risco:<10}")
