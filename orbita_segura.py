@@ -213,3 +213,52 @@ def calcular_risco_colisao():
             print(f"  > {ev[0]} | {satelites[ev[1]][0]} x {detritos[ev[2]][1]}")
             print(f"    Distancia: {ev[3]}m | Probabilidade: {ev[4]}%")
             print(f"    Acao: {recomendar_acao('CRITICO')}")
+            
+def recomendar_manobra(combustivel_disponivel):
+    """Sugere manobras viaveis com base no combustivel disponivel.
+       Usa try/except para validar entrada e for para filtrar."""
+    try:
+        combustivel_disponivel = float(combustivel_disponivel)
+        if combustivel_disponivel < 0:
+            raise ValueError("Combustivel nao pode ser negativo")
+    except ValueError as e:
+        print(f"ERRO: entrada invalida ({e})")
+        return
+
+    print(f"\n=== MANOBRAS VIAVEIS COM {combustivel_disponivel} kg DE COMBUSTIVEL ===")
+    viaveis = 0
+    for m in manobras:
+        if m[1] <= combustivel_disponivel:
+            print(f"  [OK] {m[0]:<28} | Eficacia: {m[3]}% | Risco: {m[4]}")
+            viaveis += 1
+
+    if viaveis == 0:
+        print("Nenhuma manobra viavel. Combustivel insuficiente.")
+    else:
+        print(f"\nTotal de manobras viaveis: {viaveis}/{len(manobras)}")
+
+
+def buscar_detrito_por_norad():
+    """Busca um detrito pelo ID NORAD. Usa try/except e while."""
+    try:
+        norad = int(input("Digite o ID NORAD: "))
+    except ValueError:
+        print("ERRO: ID NORAD deve ser numero inteiro.")
+        return
+
+    i = 0
+    encontrado = False
+    while i < len(detritos) and not encontrado:
+        if detritos[i][0] == norad:
+            d = detritos[i]
+            print(f"\nDETRITO LOCALIZADO:")
+            print(f"  NORAD    : {d[0]}")
+            print(f"  Nome     : {d[1]}")
+            print(f"  Origem   : {d[2]}")
+            print(f"  Altitude : {d[3]} km")
+            print(f"  Tamanho  : {d[4]} cm")
+            encontrado = True
+        i += 1
+
+    if not encontrado:
+        print(f"Detrito NORAD {norad} nao encontrado na base.")
