@@ -315,3 +315,67 @@ def gerar_relatorio_orbital():
                 outros += 1
     print(f"Distribuicao orbital     : LEO={leo} | MEO={meo} | GEO={geo} | Outros={outros}")
     print("=" * 65)
+    
+def menu():
+    """Loop principal do sistema. Usa while, try/except e match/case."""
+    while True:
+        print("\n" + "=" * 50)
+        print("   ORBITA SEGURA - MENU PRINCIPAL")
+        print("=" * 50)
+        print("1 - Listar detritos rastreados")
+        print("2 - Listar satelites monitorados")
+        print("3 - Listar eventos de aproximacao")
+        print("4 - Listar manobras de mitigacao")
+        print("5 - Calcular risco de colisao (relatorio)")
+        print("6 - Recomendar manobra por combustivel")
+        print("7 - Buscar detrito por NORAD")
+        print("8 - Calcular valor financeiro em risco")
+        print("9 - Gerar relatorio orbital consolidado")
+        print("0 - Sair")
+        print("=" * 50)
+
+        try:
+            opcao = input("Escolha uma opcao: ").strip()
+            if not opcao.isdigit():
+                raise ValueError("A opcao deve ser um numero inteiro.")
+            opcao = int(opcao)
+        except ValueError as e:
+            print(f"ERRO: {e}")
+            continue
+
+        match opcao:
+            case 1:
+                exibir_detritos()
+            case 2:
+                exibir_satelites()
+            case 3:
+                exibir_aproximacoes()
+            case 4:
+                exibir_manobras()
+            case 5:
+                calcular_risco_colisao()
+            case 6:
+                try:
+                    valor = input("Informe o combustivel disponivel (kg): ")
+                    recomendar_manobra(valor)
+                except Exception as e:
+                    print(f"ERRO inesperado: {e}")
+            case 7:
+                buscar_detrito_por_norad()
+            case 8:
+                calcular_valor_em_risco()
+            case 9:
+                gerar_relatorio_orbital()
+            case 0:
+                print("\nEncerrando ORBITA SEGURA. Ate logo!")
+                break
+            case _:
+                print("Opcao invalida. Escolha um numero entre 0 e 9.")
+
+
+if __name__ == "__main__":
+    print("=" * 65)
+    print("   ORBITA SEGURA - Sistema de Monitoramento Espacial")
+    print("   FIAP - Global Solution - 1o Semestre")
+    print("=" * 65)
+    menu()
