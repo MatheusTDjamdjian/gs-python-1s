@@ -88,3 +88,30 @@ aproximacoes = [
     ["2026-06-11 15:50", 18, 12,  105,  6.30],
     ["2026-06-12 05:42", 15, 16,  680,  0.55]
 ]
+
+# ============================================================================
+# LISTA 4 - MANOBRAS DISPONIVEIS (20 itens)
+# Estrutura: [Tipo Manobra, Combustivel (kg), Tempo (h), Eficacia (%), Risco]
+# ============================================================================
+manobras = [
+    ["Delta-V leve",            2.5,  0.5,  65, "BAIXO"],
+    ["Delta-V moderado",        5.0,  1.0,  80, "BAIXO"],
+    ["Delta-V intenso",        12.0,  2.0,  95, "MODERADO"],
+    ["Mudanca de altitude +5km",8.5,  3.5,  88, "MODERADO"],
+    ["Mudanca de altitude -5km",7.8,  3.0,  86, "MODERADO"],
+    ["Reentrada controlada",   45.0, 12.0,  99, "ALTO"],
+    ["Reorientacao de painel",  0.0,  0.2,  35, "BAIXO"],
+    ["Hibernacao temporaria",   0.5,  0.1,  20, "BAIXO"],
+    ["Boost orbital",          15.0,  4.5,  92, "MODERADO"],
+    ["Frenagem aerodinamica",   3.2,  6.0,  70, "MODERADO"],
+    ["Manobra evasiva rapida",  9.5,  0.3,  85, "ALTO"],
+    ["Ajuste de inclinacao",   18.0,  5.5,  90, "ALTO"],
+    ["Spin stabilization",      1.2,  0.4,  45, "BAIXO"],
+    ["Desacoplamento de modulo",0.0,  1.5,  60, "ALTO"],
+    ["Propulsao ionica leve",   0.8, 24.0,  75, "BAIXO"],
+    ["Propulsao ionica forte",  2.1, 36.0,  88, "BAIXO"],
+    ["Manobra Hohmann",        22.0,  8.0,  96, "MODERADO"],
+    ["Reposicionamento GEO",   30.0, 18.0,  94, "MODERADO"],
+    ["Captura por braco rob.",  0.3,  2.5,  55, "ALTO"],
+    ["Ejecao de carga util",    0.0,  0.8,  40, "ALTO"]
+]
