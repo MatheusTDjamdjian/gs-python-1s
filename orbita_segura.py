@@ -262,3 +262,56 @@ def buscar_detrito_por_norad():
 
     if not encontrado:
         print(f"Detrito NORAD {norad} nao encontrado na base.")
+        
+def calcular_valor_em_risco():
+    """Calcula valor total dos satelites em risco. Usa for e try/except."""
+    print("\n=== VALOR FINANCEIRO EM RISCO ===")
+    try:
+        valor_total = 0.0
+        sats_em_risco = set()
+        for ev in aproximacoes:
+            risco = classificar_risco(ev[3], ev[4])
+            if risco in ("CRITICO", "ALTO"):
+                sats_em_risco.add(ev[1])
+
+        for idx in sats_em_risco:
+            valor_total += satelites[idx][4]
+            print(f"  > {satelites[idx][0]:<22} US$ {satelites[idx][4]:>10} milhoes")
+
+        print(f"\nSatelites em risco ALTO/CRITICO: {len(sats_em_risco)}")
+        print(f"VALOR TOTAL EM RISCO: US$ {valor_total:.2f} milhoes")
+    except IndexError:
+        print("ERRO: indice fora dos limites das listas.")
+    except ZeroDivisionError:
+        print("ERRO: divisao por zero em calculo orbital.")
+
+
+def gerar_relatorio_orbital():
+    """Gera relatorio consolidado do sistema."""
+    print("\n" + "=" * 65)
+    print("        RELATORIO ORBITAL CONSOLIDADO - ORBITA SEGURA")
+    print("=" * 65)
+    print(f"Detritos rastreados      : {len(detritos)}")
+    print(f"Satelites monitorados    : {len(satelites)}")
+    print(f"Eventos de aproximacao   : {len(aproximacoes)}")
+    print(f"Manobras catalogadas     : {len(manobras)}")
+
+    soma_alt = 0
+    for d in detritos:
+        soma_alt += d[3]
+    media_alt = soma_alt / len(detritos)
+    print(f"Altitude media detritos  : {media_alt:.1f} km")
+
+    leo = meo = geo = outros = 0
+    for s in satelites:
+        match s[3]:
+            case "LEO":
+                leo += 1
+            case "MEO":
+                meo += 1
+            case "GEO":
+                geo += 1
+            case _:
+                outros += 1
+    print(f"Distribuicao orbital     : LEO={leo} | MEO={meo} | GEO={geo} | Outros={outros}")
+    print("=" * 65)
